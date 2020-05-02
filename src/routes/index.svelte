@@ -60,7 +60,7 @@
 <main class="mars-current-weather">
   <h1 class="main-title" style="display: flex; justify-content: space-between">
     {#if lang}Latest weather at Elysium Planitia{:else}極樂世界的最新天氣{/if}
-    <i class="fas fa-globe" on:click={switchLang} />
+    <i class="fas fa-globe" on:click={switchLang} style="cursor: pointer" />
   </h1>
 
   <div class="date">
