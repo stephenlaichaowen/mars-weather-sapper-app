@@ -106,8 +106,7 @@
         pressure) on the surface of Mars at Elysium Planitia, a flat, smooth
         plain near Mars’ equator.
       {:else}
-        InSight 每天在火星表面的極樂世界（位於火星赤道附近的一個平坦而光滑的平原）進行天氣測量（溫度，風，壓力）
-        。
+        InSight 每天在火星表面的極樂世界（位於火星赤道附近的一個平坦而光滑的平原）進行溫度，風，壓力等天氣測量。
       {/if}
     </p>
     <p>
