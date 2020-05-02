@@ -6,9 +6,9 @@
 
   let info = [];
   let currentInfo = {};
-  let highTemp = '0.0';  
-  let lowTemp = '0.0';
-  let wSpeed = 0;
+  let highTemp 
+  let lowTemp 
+  let wSpeed 
   let wDirection;
   let wArrow;
   let today 
@@ -20,6 +20,7 @@
   let todayText = ''
   let windText = ''
   let lang = true;
+  let loading = false
 
   $: if (lang) { 
     today = new Date().toLocaleString('en-US')
@@ -32,7 +33,7 @@
   }
 
   $: if (!lang) { 
-    title = '極樂世界的最新天氣'
+    titleText = '極樂世界的最新天氣'
     today = new Date().toLocaleString('zh-TW')
     todayText = '今天'
     temperatureText = '氣溫'
@@ -60,15 +61,9 @@
 
     info = temp;
     currentInfo = info[info.length - 1];    
+    loading = true
 
-    const {
-      date,
-      maxTemp,
-      minTemp,
-      windDirectionaCardinal,
-      windDirectionDegrees,
-      windSpeed
-    } = currentInfo;
+    const { date, maxTemp, minTemp, windDirectionaCardinal, windDirectionDegrees, windSpeed } = currentInfo;
 
     highTemp = maxTemp;
     lowTemp = minTemp;
@@ -77,9 +72,7 @@
     wArrow = windDirectionaCardinal;
   });
 
-  function switchLang() {
-    lang = !lang    
-  }
+  function switchLang() { lang = !lang }
 </script>
 
 <main class="mars-current-weather">
@@ -97,18 +90,20 @@
     <h2 class="section-title">{ temperatureText }</h2>
     <p class="reading">
       { highTempText }
-      {highTemp} °C
+      {#if loading} {highTemp} °C {:else}  <i class="fas fa-spinner fa-spin"></i> {/if}
     </p>
     <p class="reading">
       { lowTempText }
-      {lowTemp} °C
+      {#if loading} {lowTemp} °C {:else}  <i class="fas fa-spinner fa-spin"></i> {/if}
     </p>
   </div>
 
   <div class="wind">
     <h2 class="section-title">{ windText }</h2>
     <p class="reading">
-      <span>{wSpeed} kph</span>
+      <span>
+        {#if loading} {wSpeed} kph {:else}  <i class="fas fa-spinner fa-spin"></i> {/if}        
+      </span>
       <span data-speed-unit />
     </p>
 
