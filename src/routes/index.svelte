@@ -1,98 +1,121 @@
 <script>
-  import { onMount } from 'svelte'
-  
-  const API_KEY = '2H8SUN2YauYx3HjApX5DScnJrYEe3fDrwlNyUHwQ'
-  const API = `https://api.nasa.gov/insight_weather/?api_key=${API_KEY}&feedtype=json&ver=1.0`
+  import { onMount } from "svelte";
 
-  let info = []
-  let currentInfo = {}
-  let highTemp = 0.0
-  let lowTemp = 0.0
-  let wSpeed = 0
-  let wDirection
-  let wArrow
-  let today = new Date().toDateString()
+  const API_KEY = "2H8SUN2YauYx3HjApX5DScnJrYEe3fDrwlNyUHwQ";
+  const API = `https://api.nasa.gov/insight_weather/?api_key=${API_KEY}&feedtype=json&ver=1.0`;
+
+  let info = [];
+  let currentInfo = {};
+  let highTemp = 0.0;
+  let lowTemp = 0.0;
+  let wSpeed = 0;
+  let wDirection;
+  let wArrow;
+  let today = new Date().toDateString();
+  let lang = true;
+
+  // console.log(lang);
 
   onMount(async () => {
-    const res = await fetch(API)
-    const data = await res.json()
-    const {
-      sol_keys,
-      validity_checks,
-      ...solData
-    } = data
-    // console.log(solData);
+    const res = await fetch(API);
+    const data = await res.json();
+    const { sol_keys, validity_checks, ...solData } = data;
 
-    // loop through object
     const temp = Object.entries(solData).map(([solData, data]) => {
       return {
-        
         maxTemp: data.AT.mx,
         minTemp: data.AT.mn,
         windSpeed: data.HWS.av,
         windDirectionDegrees: data.WD.most_common.compass_degrees,
         windDirectionCardinal: data.WD.most_common.compass_point,
         date: new Date(data.First_UTC)
-      }
-    })
-    info = temp
-    currentInfo = info[info.length-1]
-    console.log(currentInfo);
-    const { date, maxTemp, minTemp, windDirectionaCardinal, windDirectionDegrees, windSpeed } = currentInfo
-    // today = date
-    highTemp = maxTemp
-    lowTemp = minTemp
-    wSpeed = windSpeed
-    wDirection = windDirectionDegrees
-    wArrow = windDirectionaCardinal
-  })
+      };
+    });
 
+    info = temp;
+    currentInfo = info[info.length - 1];
+    console.log(currentInfo);
+
+    const {
+      date,
+      maxTemp,
+      minTemp,
+      windDirectionaCardinal,
+      windDirectionDegrees,
+      windSpeed
+    } = currentInfo;
+
+    highTemp = maxTemp;
+    lowTemp = minTemp;
+    wSpeed = windSpeed;
+    wDirection = windDirectionDegrees;
+    wArrow = windDirectionaCardinal;
+  });
+
+  function switchLang() {
+    lang = !lang
+  }
 </script>
 
 <main class="mars-current-weather">
-  <h1 class="main-title">Latest weather at Elysium Planitia</h1>
+  <h1 class="main-title" style="display: flex; justify-content: space-between">
+    {#if lang}Latest weather at Elysium Planitia{:else}極樂世界的最新天氣{/if}
+    <i class="fas fa-globe" on:click={switchLang} />
+  </h1>
 
   <div class="date">
     <h2 class="section-title section-title--date">
-      Today
-      <!-- <span data-current-sol>Not Available</span> -->
+      {#if lang}Today{:else}今天{/if}
     </h2>
-    <p class="date__day">{ today }</p> 
+    <p class="date__day">{today}</p>
   </div>
 
   <div class="temp">
-    <h2 class="section-title">Temperature</h2>
+    <h2 class="section-title">
+      {#if lang}Temperature{:else}氣溫{/if}
+    </h2>
     <p class="reading">
-      High: { highTemp } °C
+      {#if lang}High:{:else}高溫:{/if}
+      {highTemp} °C
     </p>
     <p class="reading">
-      Low: { lowTemp } °C
+      {#if lang}Low:{:else}低溫:{/if}
+      {lowTemp} °C
     </p>
   </div>
 
   <div class="wind">
-    <h2 class="section-title">Wind</h2>
+    <h2 class="section-title">
+      {#if lang}Wind:{:else}風:{/if}
+    </h2>
     <p class="reading">
-      <span>{ wSpeed } kph</span>
+      <span>{wSpeed} kph</span>
       <span data-speed-unit />
     </p>
 
     <div class="wind__direction">
-      <p class="sr-only">{ wDirection }</p>
-      <div class="wind__arrow">{ wArrow }</div>
+      <p class="sr-only">{wDirection}</p>
+      <div class="wind__arrow">{wArrow}</div>
     </div>
   </div>
 
   <div class="info">
     <p>
-      InSight is taking daily weather measurements (temperature, wind, pressure)
-      on the surface of Mars at Elysium Planitia, a flat, smooth plain near
-      Mars’ equator.
+      {#if lang}
+        InSight is taking daily weather measurements (temperature, wind,
+        pressure) on the surface of Mars at Elysium Planitia, a flat, smooth
+        plain near Mars’ equator.
+      {:else}
+        InSight 每天在火星表面的極樂世界（位於火星赤道附近的一個平坦而光滑的平原）進行天氣測量（溫度，風，壓力）
+        。
+      {/if}
     </p>
     <p>
-      This is only a part of InSight’s mission.
-      <a href="https://mars.nasa.gov/insight/mission/overview/">Click here</a>
-      to find out more.
+      {#if lang} This is only a part of InSight’s mission. {:else} 這只是 InSight 任務的一部分。 {/if}      
+      <a href="https://mars.nasa.gov/insight/mission/overview/">
+        {#if lang}Click here{:else}請點擊這裡{/if}
+      </a>
+      {#if lang}Click here{:else}了解更多{/if}
     </p>
   </div>
 
