@@ -22,6 +22,8 @@
   let lang = true;
   let loading = false
 
+  const LOCAL_STORAGE_MARS_WEATHER_KEY = 'stephen.mars-weather-app'
+
   $: if (lang) { 
     today = new Date().toLocaleString('en-US')
     titleText = 'Latest weather at Elysium Planitia'
@@ -43,6 +45,8 @@
   }
 
   onMount(async () => {
+    lang = JSON.parse(localStorage.getItem(LOCAL_STORAGE_MARS_WEATHER_KEY)) 
+    
     const res = await fetch(API);
     const data = await res.json();
     const { sol_keys, validity_checks, ...solData } = data;
@@ -72,7 +76,10 @@
     wArrow = windDirectionaCardinal;
   });
 
-  function switchLang() { lang = !lang }
+  function switchLang() { 
+    lang = !lang 
+    localStorage.setItem(LOCAL_STORAGE_MARS_WEATHER_KEY, JSON.stringify(lang))
+  }
 </script>
 
 <main class="mars-current-weather">
