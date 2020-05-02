@@ -167,3 +167,9 @@
     </button>
   </div>
 </template>
+
+<style>
+  main {
+    margin-top: 2rem;
+  }
+</style>
