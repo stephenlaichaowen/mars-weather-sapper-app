@@ -22,7 +22,7 @@
   let lang = true;
   let loading = false
 
-  const LOCAL_STORAGE_MARS_WEATHER_KEY = 'stephen.mars-weather-app'
+  const LOCAL_STORAGE_MARS_WEATHER_KEY = 'stephen.mars-weather-app'  
 
   $: if (lang) { 
     today = new Date().toLocaleString('en-US')

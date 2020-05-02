@@ -4,7 +4,6 @@
 	"name": "mars-weather-app",
 	"short_name": "Mars Weather App",
   "display": "fullscreen",
-  "orientation": "portrait",
 	"start_url": ".",
 	"icons": [
 		{
