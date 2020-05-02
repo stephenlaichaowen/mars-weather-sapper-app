@@ -13,6 +13,7 @@
   let wArrow;
   let today 
   let locales = 'en-US'
+  let titleText = 'Latest weather at Elysium Planitia'
   let temperatureText = ''
   let highTempText = ''
   let lowTempText = ''
@@ -22,6 +23,7 @@
 
   $: if (lang) { 
     today = new Date().toLocaleString('en-US')
+    titleText = 'Latest weather at Elysium Planitia'
     todayText = 'Today'
     temperatureText = 'Temperature'
     highTempText = 'High:'
@@ -30,6 +32,7 @@
   }
 
   $: if (!lang) { 
+    title = '極樂世界的最新天氣'
     today = new Date().toLocaleString('zh-TW')
     todayText = '今天'
     temperatureText = '氣溫'
@@ -81,7 +84,7 @@
 
 <main class="mars-current-weather">
   <h1 class="main-title" style="display: flex; justify-content: space-between">
-    {#if lang}Latest weather at Elysium Planitia{:else}極樂世界的最新天氣{/if}
+    { titleText }
     <i class="fas fa-globe" on:click={switchLang} style="cursor: pointer" />
   </h1>
 
