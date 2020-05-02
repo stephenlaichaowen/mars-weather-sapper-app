@@ -6,22 +6,43 @@
 
   let info = [];
   let currentInfo = {};
-  let highTemp = 0.0;
-  let lowTemp = 0.0;
+  let highTemp = '0.0';  
+  let lowTemp = '0.0';
   let wSpeed = 0;
   let wDirection;
   let wArrow;
-  let locales = 'en-US'
   let today 
+  let locales = 'en-US'
+  let temperatureText = ''
+  let highTempText = ''
+  let lowTempText = ''
+  let todayText = ''
+  let windText = ''
   let lang = true;
 
-  $: if (lang) today = new Date().toLocaleString('en-US')
-  $: if (!lang) today = new Date().toLocaleString('zh-TW')
+  $: if (lang) { 
+    today = new Date().toLocaleString('en-US')
+    todayText = 'Today'
+    temperatureText = 'Temperature'
+    highTempText = 'High:'
+    lowTempText = 'Low:'
+    windText = 'Wind'
+  }
+
+  $: if (!lang) { 
+    today = new Date().toLocaleString('zh-TW')
+    todayText = '今天'
+    temperatureText = '氣溫'
+    highTempText = '高溫'
+    lowTempText = '低溫'
+    windText = '風'
+  }
 
   onMount(async () => {
     const res = await fetch(API);
     const data = await res.json();
     const { sol_keys, validity_checks, ...solData } = data;
+    console.log(solData);
 
     const temp = Object.entries(solData).map(([solData, data]) => {
       return {
@@ -35,8 +56,7 @@
     });
 
     info = temp;
-    currentInfo = info[info.length - 1];
-    console.log(currentInfo);
+    currentInfo = info[info.length - 1];    
 
     const {
       date,
@@ -66,30 +86,24 @@
   </h1>
 
   <div class="date">
-    <h2 class="section-title section-title--date">
-      {#if lang}Today{:else}今天{/if}
-    </h2>
+    <h2 class="section-title section-title--date">{ todayText }</h2>
     <p class="date__day">{today}</p>
   </div>
 
   <div class="temp">
-    <h2 class="section-title">
-      {#if lang}Temperature{:else}氣溫{/if}
-    </h2>
+    <h2 class="section-title">{ temperatureText }</h2>
     <p class="reading">
-      {#if lang}High:{:else}高溫:{/if}
+      { highTempText }
       {highTemp} °C
     </p>
     <p class="reading">
-      {#if lang}Low:{:else}低溫:{/if}
+      { lowTempText }
       {lowTemp} °C
     </p>
   </div>
 
   <div class="wind">
-    <h2 class="section-title">
-      {#if lang}Wind:{:else}風:{/if}
-    </h2>
+    <h2 class="section-title">{ windText }</h2>
     <p class="reading">
       <span>{wSpeed} kph</span>
       <span data-speed-unit />
