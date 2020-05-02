@@ -11,10 +11,12 @@
   let wSpeed = 0;
   let wDirection;
   let wArrow;
-  let today = new Date().toDateString();
+  let locales = 'en-US'
+  let today 
   let lang = true;
 
-  // console.log(lang);
+  $: if (lang) today = new Date().toLocaleString('en-US')
+  $: if (!lang) today = new Date().toLocaleString('zh-TW')
 
   onMount(async () => {
     const res = await fetch(API);
@@ -53,7 +55,7 @@
   });
 
   function switchLang() {
-    lang = !lang
+    lang = !lang    
   }
 </script>
 
