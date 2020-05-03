@@ -135,7 +135,7 @@
       <a href="https://mars.nasa.gov/insight/mission/overview/">
         {#if lang}Click here{:else}請點擊這裡{/if}
       </a>
-      {#if lang}Click here{:else}了解更多{/if}
+      {#if lang}to learn more。{:else}了解更多。{/if}
     </p>
   </div>
 
